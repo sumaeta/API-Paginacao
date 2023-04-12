@@ -34,7 +34,7 @@ public class Main {
 		lista.add("0020");
 		
 		Page<String> page = new Page.Builder<String>()
-		        .pageNumber(0)
+		        .pageNumber(1)
 		        .pageSize(10)
 		        .content(lista)
 		        .build();

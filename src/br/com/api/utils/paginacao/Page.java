@@ -10,13 +10,15 @@ public class Page<T> {
     private final List<T> content;
     private final int pageNumber;
     private final int pageSize;
-    private final long totalElements;
+    private final long totalElementosDaLista;
+    private final long totalElementosPorPagina;
 
     private Page(Builder<T> builder) {
         this.content = builder.content;
         this.pageNumber = builder.pageNumber;
         this.pageSize = builder.pageSize;
-        this.totalElements = builder.totalElements;
+        this.totalElementosDaLista = builder.totalElements;
+        this.totalElementosPorPagina = builder.pageSize;
     }
 
     public static class Builder<T> {
@@ -60,7 +62,7 @@ public class Page<T> {
          * @return Builder generico contendo apenas uma lista com a quantidade de elementos passado por parâmetro.
          */
 		public Builder<T> content(List<T> content) {
-			
+			totalElements(content.size());
 			int totalElements = content.size();
 			int startIndex = pageNumber * pageSize;
 			int endIndex = Math.min(startIndex + pageSize, totalElements);
@@ -97,11 +99,11 @@ public class Page<T> {
 	}
 
 	public long getTotalElements() {
-		return totalElements;
+		return totalElementosDaLista;
 	}
 	
 	public int getTotalPages() {
-        return (int) Math.ceil((double) totalElements / pageSize);
+        return (int) Math.ceil((double) totalElementosDaLista / pageSize);
     }
 	
 	public boolean hasNext() {
@@ -120,6 +122,7 @@ public class Page<T> {
         return !hasNext();
     }
 
+	
 	@Override
 	public String toString() {
 		StringBuilder builder2 = new StringBuilder();
@@ -133,12 +136,16 @@ public class Page<T> {
 		builder2.append(pageNumber);
 		builder2.append(", \n pageSize: ");
 		builder2.append(pageSize);
-		builder2.append(", \n totalElements: ");
-		builder2.append(totalElements);
-		builder2.append(", \n totalPages: ");
-		builder2.append(getTotalPages());
+		builder2.append(", \n totalElementosDaLista: ");
+		builder2.append(totalElementosDaLista);
+		builder2.append(", \n totalElementosPorPagina: ");
+		builder2.append(totalElementosPorPagina);
 		builder2.append("]\n}");
 		return builder2.toString();
+	}
+
+	public long getTotalElementosPorPagina() {
+		return totalElementosPorPagina;
 	}
     
 }
