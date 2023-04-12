@@ -7,60 +7,63 @@ import java.util.TreeSet;
 
 public class Page<T> {
 
-    private final List<T> content;
-    private final int pageNumber;
-    private final int pageSize;
-    private final long totalElementosDaLista;
-    private final long totalElementosPorPagina;
+	private final List<T> content;
+	private final int pageNumber;
+	private final int pageSize;
+	private final long totalElementosDaLista;
+	private final long totalElementosPorPagina;
 
-    private Page(Builder<T> builder) {
-        this.content = builder.content;
-        this.pageNumber = builder.pageNumber;
-        this.pageSize = builder.pageSize;
-        this.totalElementosDaLista = builder.totalElements;
-        this.totalElementosPorPagina = builder.pageSize;
-    }
+	private Page(Builder<T> builder) {
+		this.content = builder.content;
+		this.pageNumber = builder.pageNumber;
+		this.pageSize = builder.pageSize;
+		this.totalElementosDaLista = builder.totalElements;
+		this.totalElementosPorPagina = builder.pageSize;
+	}
 
-    public static class Builder<T> {
-        private List<T> content;
-        private int pageNumber;
-        private int pageSize;
-        private long totalElements;
-        /**
-         * Definir o número da página solicitada
-         */
-        public Builder<T> pageNumber(int pageNumber) {
-            this.pageNumber = pageNumber;
-            return this;
-        }
+	public static class Builder<T> {
+		private List<T> content;
+		private int pageNumber;
+		private int pageSize;
+		private long totalElements;
 
-        /**
-         *  Define o tamanho da página
-         */
-        public Builder<T> pageSize(int pageSize) {
-            this.pageSize = pageSize;
-            return this;
-        }
-        
-        /**
-         * @implNote A ordenação por padrão é ASC e não aceita repetição.
-         * 
-         * Não é possível ordenar por data.
-         * 
-         * @return Builder generico ordenado de forma descrecente
-         */
-        public Builder<T> descendente(){
-        	NavigableSet<T> lista = new TreeSet<>(content);
-        	List<T> retorno = new ArrayList<>(lista.descendingSet());
-        	this.content = retorno;
-        	return this;
-        }
-        
-        /**
-         * 
-         * @param content Recebe por parâmetro a lista que irá ser fragmentada para gerar a paginação.
-         * @return Builder generico contendo apenas uma lista com a quantidade de elementos passado por parâmetro.
-         */
+		/**
+		 * Definir o número da página solicitada
+		 */
+		public Builder<T> pageNumber(int pageNumber) {
+			this.pageNumber = pageNumber;
+			return this;
+		}
+
+		/**
+		 * Define o tamanho da página
+		 */
+		public Builder<T> pageSize(int pageSize) {
+			this.pageSize = pageSize;
+			return this;
+		}
+
+		/**
+		 * @implNote A ordenação por padrão é ASC e não aceita repetição.
+		 * 
+		 *           Não é possível ordenar por data.
+		 * 
+		 * @return Builder generico ordenado de forma descrecente
+		 */
+		public Builder<T> descendente() {
+			NavigableSet<T> lista = new TreeSet<>(content);
+			List<T> retorno = new ArrayList<>(lista.descendingSet());
+			this.content = retorno;
+			return this;
+		}
+
+		/**
+		 * 
+		 * @param content Recebe por parâmetro a lista que irá ser fragmentada para
+		 *                gerar a paginação.
+		 * @return Builder generico contendo apenas uma lista com a quantidade de
+		 *         elementos passado por parâmetro.
+		 */
 		public Builder<T> content(List<T> content) {
 			totalElements(content.size());
 			int totalElements = content.size();
@@ -70,21 +73,21 @@ public class Page<T> {
 			this.content = new ArrayList<>(content.subList(startIndex, endIndex));
 			return this;
 		}
-		
+
 		/**
 		 * 
 		 * @param totalElements
 		 * @return total de elementos da lista, não na representação paginada
 		 */
-        public Builder<T> totalElements(long totalElements) {
-            this.totalElements = totalElements;
-            return this;
-        }
+		public Builder<T> totalElements(long totalElements) {
+			this.totalElements = totalElements;
+			return this;
+		}
 
-        public Page<T> build() {
-            return new Page<>(this);
-        }
-    }
+		public Page<T> build() {
+			return new Page<>(this);
+		}
+	}
 
 	public List<T> getContent() {
 		return content;
@@ -101,28 +104,27 @@ public class Page<T> {
 	public long getTotalElements() {
 		return totalElementosDaLista;
 	}
-	
+
 	public int getTotalPages() {
-        return (int) Math.ceil((double) totalElementosDaLista / pageSize);
-    }
-	
+		return (int) Math.ceil((double) totalElementosDaLista / pageSize);
+	}
+
 	public boolean hasNext() {
-        return pageNumber < getTotalPages();
-    }
+		return pageNumber < getTotalPages();
+	}
 
-    public boolean hasPrevious() {
-        return pageNumber > 0;
-    }
-	
+	public boolean hasPrevious() {
+		return pageNumber > 0;
+	}
+
 	public boolean isFirst() {
-        return !hasPrevious();
-    }
+		return !hasPrevious();
+	}
 
-    public boolean isLast() {
-        return !hasNext();
-    }
+	public boolean isLast() {
+		return !hasNext();
+	}
 
-	
 	@Override
 	public String toString() {
 		StringBuilder builder2 = new StringBuilder();
@@ -147,6 +149,5 @@ public class Page<T> {
 	public long getTotalElementosPorPagina() {
 		return totalElementosPorPagina;
 	}
-    
-}
 
+}

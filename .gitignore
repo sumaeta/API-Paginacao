@@ -1,3 +1,6 @@
 
 *.class
 *bin
+bin/br/com/api/utils/paginacao/Page.class
+*.class
+*.class

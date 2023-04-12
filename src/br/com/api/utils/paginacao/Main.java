@@ -32,14 +32,10 @@ public class Main {
 		lista.add("0018");
 		lista.add("0019");
 		lista.add("0020");
-		
-		Page<String> page = new Page.Builder<String>()
-		        .pageNumber(1)
-		        .pageSize(10)
-		        .content(lista)
-		        .build();
-	
-	System.out.println(page);
-		
+
+		Page<String> page = new Page.Builder<String>().pageNumber(1).pageSize(10).content(lista).descendente().build();
+
+		System.out.println(page);
+
 	}
 }
